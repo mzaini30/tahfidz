@@ -14,14 +14,14 @@ layout: default
 			<div>
 				<form @submit.prevent='ubahHafalan()' class="bg-white mb-4 p-3 shadow">
 					<div>Berapa Juz Hafalan?</div>
-					<input type="" class="border-b w-full" x-model='biodata.hafalan' name="">
+					<input type="tel" class="border-b w-full" x-model='biodata.hafalan' name="">
 					<input type="submit" value="Ubah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
 				</form>
 				<form class="bg-white mb-4 p-3 shadow">
 					<div>Tanggal Update Terakhir?</div>
 					<input type="date" class="border-b w-full" name="">
 					<div class="mt-2">Ayat yang Telah Dihafal</div>
-					<input type="tel" placeholder="10/31/1" class="border-b w-full" name="">
+					<input type="tel" placeholder="10.31.1" class="border-b w-full" name="">
 					<input type="submit" value="Tambah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
 				</form>
 			</div>
