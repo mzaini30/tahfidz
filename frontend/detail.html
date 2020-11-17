@@ -9,39 +9,41 @@ layout: default
 	<div class="min-h-screen bg-green-200 py-4 px-6">
 		<div class="text-3xl text-right text-green-700 uppercase" x-text='biodata.nama'></div>
 		<div class="text-right text-green-500"><span x-text='biodata.hafalan'></span> Juz</div>
-		<div class="ct-chart ct-perfect-fourth"></div>
-		<template x-if='!localStorage.password'>
-			<div>
-				<form @submit.prevent='ubahHafalan()' class="bg-white mb-4 p-3 shadow">
-					<div>Berapa Juz Hafalan?</div>
-					<input type="tel" class="border-b w-full" x-model='biodata.hafalan' name="">
-					<input type="submit" value="Ubah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
-				</form>
-				<form class="bg-white mb-4 p-3 shadow">
-					<div>Tanggal Update Terakhir?</div>
-					<input type="date" class="border-b w-full" name="">
-					<div class="mt-2">Ayat yang Telah Dihafal</div>
-					<input type="tel" placeholder="10.31.1" class="border-b w-full" name="">
-					<input type="submit" value="Tambah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
-				</form>
-			</div>
-		</template>
-		<table class="bg-white rounded-lg shadow w-full">
-			<thead class="border-b">
-				<tr>
-					<th class="p-2">Tanggal</th>
-					<th class="p-2">Ayat</th>
-				</tr>
-			</thead>
-			<tbody>
-				<template x-for='x in dataAyat'>
-					<tr class="border-b">
-						<td class="p-2 text-center" x-text='x.tanggal'></td>
-						<td class="p-2 text-center" x-text='x.ayat'></td>
+		<div class="sm:grid sm:grid-cols-3 sm:gap-x-4 sm:mt-8">
+			<div class="ct-chart ct-perfect-fourth"></div>
+			<template x-if='localStorage.password'>
+				<div>
+					<form @submit.prevent='ubahHafalan()' class="bg-white mb-4 p-3 shadow">
+						<div>Berapa Juz Hafalan?</div>
+						<input type="tel" class="border-b w-full" x-model='biodata.hafalan' name="">
+						<input type="submit" value="Ubah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
+					</form>
+					<form @submit.prevent='tambahAyat()' class="bg-white mb-4 p-3 shadow">
+						<div>Tanggal Update Terakhir?</div>
+						<input type="date" x-model='tanggal' class="border-b w-full" name="">
+						<div class="mt-2">Ayat yang Telah Dihafal</div>
+						<input type="tel" x-model='ayat' placeholder="10.31.1" class="border-b w-full" name="">
+						<input type="submit" value="Tambah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
+					</form>
+				</div>
+			</template>
+			<table class="bg-white rounded-lg shadow w-full">
+				<thead class="border-b">
+					<tr>
+						<th class="p-2">Tanggal</th>
+						<th class="p-2">Ayat</th>
 					</tr>
-				</template>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<template x-for='x in dataAyat'>
+						<tr class="border-b">
+							<td class="p-2 text-center" x-text='x.tanggal'></td>
+							<td class="p-2 text-center" x-text='x.ayat'></td>
+						</tr>
+					</template>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -49,11 +51,28 @@ layout: default
 		return {
 			dataAyat: [],
 			biodata: {},
+			tanggal: '',
+			ayat: '',
 			identitas(){
 				fetch(`${api}/ambilNama.php?id=${param()[0]}`).then(x => x.json()).then(x => this.biodata = x)
 			},
 			ubahHafalan(){
 				fetch(`${api}/santri/ubahHafalan.php?password=${localStorage.password}&id=${param()[0]}&juz=${this.biodata.hafalan}`).then(() => this.ambilData())
+			},
+			tambahAyat(){
+				body = new FormData
+				body.append('password', localStorage.password)
+				body.append('ayat', this.ayat)
+				body.append('tanggal', this.tanggal)
+				body.append('idSantri', param()[0])
+				fetch(`${api}/santri/tambahHafalan.php`, {
+					method: 'post',
+					body
+				}).then(() => {
+					this.ambilData()
+					this.ayat = ''
+					this.tanggal = ''
+				})
 			},
 			ambilData(){
 				fetch(`${api}/detail.php?idSantri=${param()[0]}`).then(x => x.json()).then(x => {
