@@ -1,0 +1,1 @@
+tailwindcss build tailwind.pcss -o dist/tailwind.css
