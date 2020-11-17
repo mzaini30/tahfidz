@@ -48,6 +48,8 @@
 	    }
 	</style>
 	<script src="/dist/alpine.min.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="/dist/chartist.min.css">
+	<script type="text/javascript" src="/dist/chartist.min.js"></script>
 </head>
 <body>
 	<div x-data='index()' x-init="
@@ -81,7 +83,7 @@
 				this.list2 = [...this.list]
 			},
 			cari(x){
-				this.list2 = this.list.filter(y => y.nama.includes(x))
+				this.list2 = this.list.filter(y => y.nama.toLowerCase().includes(x.toLowerCase()))
 			}
 		}
 	}

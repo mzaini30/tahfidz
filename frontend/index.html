@@ -33,7 +33,7 @@ layout: default
 				this.list2 = [...this.list]
 			},
 			cari(x){
-				this.list2 = this.list.filter(y => y.nama.includes(x))
+				this.list2 = this.list.filter(y => y.nama.toLowerCase().includes(x.toLowerCase()))
 			}
 		}
 	}
