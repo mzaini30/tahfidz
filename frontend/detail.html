@@ -10,6 +10,22 @@ layout: default
 		<div class="text-3xl text-right text-green-700 uppercase" x-text='biodata.nama'></div>
 		<div class="text-right text-green-500"><span x-text='biodata.hafalan'></span> Juz</div>
 		<div class="ct-chart ct-perfect-fourth"></div>
+		<template x-if='!localStorage.password'>
+			<div>
+				<form @submit.prevent='ubahHafalan()' class="bg-white mb-4 p-3 shadow">
+					<div>Berapa Juz Hafalan?</div>
+					<input type="" class="border-b w-full" x-model='biodata.hafalan' name="">
+					<input type="submit" value="Ubah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
+				</form>
+				<form class="bg-white mb-4 p-3 shadow">
+					<div>Tanggal Update Terakhir?</div>
+					<input type="date" class="border-b w-full" name="">
+					<div class="mt-2">Ayat yang Telah Dihafal</div>
+					<input type="tel" placeholder="10/31/1" class="border-b w-full" name="">
+					<input type="submit" value="Tambah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
+				</form>
+			</div>
+		</template>
 		<table class="bg-white rounded-lg shadow w-full">
 			<thead class="border-b">
 				<tr>
@@ -36,6 +52,9 @@ layout: default
 			identitas(){
 				fetch(`${api}/ambilNama.php?id=${param()[0]}`).then(x => x.json()).then(x => this.biodata = x)
 			},
+			ubahHafalan(){
+				fetch(`${api}/santri/ubahHafalan.php?password=${localStorage.password}&id=${param()[0]}&juz=${this.biodata.hafalan}`).then(() => this.ambilData())
+			},
 			ambilData(){
 				fetch(`${api}/detail.php?idSantri=${param()[0]}`).then(x => x.json()).then(x => {
 					this.dataAyat = x
@@ -50,17 +69,4 @@ layout: default
 			}
 		}
 	}
-	// var data = {
-	//   // A labels array that can contain any sort of values
-	//   // labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-	//   // Our series array that contains series objects or in this case series data arrays
-	//   series: [
-	//     [5, 2, 4, 2, 0]
-	//   ]
-	// };
-
-	// // Create a new line chart object where as first parameter we pass in a selector
-	// // that is resolving to our chart container element. The Second parameter
-	// // is the actual data object.
-	// new Chartist.Line('.ct-chart', data);
 </script>
