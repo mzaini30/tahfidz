@@ -38,6 +38,7 @@
         window.addEventListener("resize", tinggiFull)
 
         api = 'http://localhost:2020'
+        param = () => location.search.split('?')[1].split('/')
     </script>
     <meta content='no-cache' name='turbolinks-cache-control'/>
 	<script defer='defer' src='/dist/turbolinks.js' type='text/javascript'></script>
@@ -53,8 +54,8 @@
 </head>
 <body>
 	<div x-data='index()' x-init="
+	muatData()
 	$watch('filter', x => cari(x))
-	salinList()
 ">
 	<div class="min-h-screen px-5 py-4 bg-green-200">
 		<div class="text-green-700 mb-5">Tahfidz</div>
@@ -70,17 +71,14 @@
 <script type="text/javascript">
 	index = () => {
 		return {
-			list: [
-				{nama: 'Alex', hafalan: 11, id: 2},
-				{nama: 'Andi', hafalan: 9, id: 1},
-				{nama: 'Maryam', hafalan: 30, id: 3},
-				{nama: 'Rudi', hafalan: 2, id: 5},
-				{nama: 'Zen', hafalan: 3, id: 4},
-			],
+			list: [],
 			list2: [],
 			filter: '',
-			salinList(){
-				this.list2 = [...this.list]
+			muatData(){
+				fetch(`${api}/ringkasan.php`).then(x => x.json()).then(x => {
+					this.list = x
+					this.list2 = x
+				})
 			},
 			cari(x){
 				this.list2 = this.list.filter(y => y.nama.toLowerCase().includes(x.toLowerCase()))

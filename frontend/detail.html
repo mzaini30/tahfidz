@@ -2,10 +2,13 @@
 layout: default
 ---
 
-<div x-data='detail()' x-init='buatGrafik()'>
+<div x-data='detail()' x-init='
+	identitas()
+	ambilData()
+'>
 	<div class="min-h-screen bg-green-200 py-4 px-6">
-		<div class="text-3xl text-right text-green-700">MARYAM</div>
-		<div class="text-right text-green-500">30 Juz</div>
+		<div class="text-3xl text-right text-green-700 uppercase" x-text='biodata.nama'></div>
+		<div class="text-right text-green-500"><span x-text='biodata.hafalan'></span> Juz</div>
 		<div class="ct-chart ct-perfect-fourth"></div>
 		<table class="bg-white rounded-lg shadow w-full">
 			<thead class="border-b">
@@ -28,26 +31,22 @@ layout: default
 <script type="text/javascript">
 	detail = () => {
 		return {
-			dataAyat: [
-				{tanggal: '11/12/2020', ayat: 3},
-				{tanggal: '11/12/2020', ayat: 1},
-				{tanggal: '11/12/2020', ayat: 4},
-				{tanggal: '11/12/2020', ayat: 5},
-				{tanggal: '11/12/2020', ayat: 0},
-				{tanggal: '11/12/2020', ayat: 0},
-				{tanggal: '11/12/2020', ayat: 2},
-				{tanggal: '11/12/2020', ayat: 1},
-				{tanggal: '11/12/2020', ayat: 7},
-				{tanggal: '11/12/2020', ayat: 3},
-			],
-			buatGrafik(){
-				series = []
-				for (x of this.dataAyat){
-					series = [x.ayat, ...series]
-				}
-				new Chartist.Line('.ct-chart', {
-					series: [series]
-				});
+			dataAyat: [],
+			biodata: {},
+			identitas(){
+				fetch(`${api}/ambilNama.php?id=${param()[0]}`).then(x => x.json()).then(x => this.biodata = x)
+			},
+			ambilData(){
+				fetch(`${api}/detail.php?idSantri=${param()[0]}`).then(x => x.json()).then(x => {
+					this.dataAyat = x
+					series = []
+					for (x of this.dataAyat){
+						series = [x.ayat, ...series]
+					}
+					new Chartist.Line('.ct-chart', {
+						series: [series]
+					});	
+				})
 			}
 		}
 	}
