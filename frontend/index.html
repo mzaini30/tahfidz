@@ -2,3 +2,39 @@
 layout: default
 ---
 
+<div x-data='index()' x-init="
+	$watch('filter', x => cari(x))
+	salinList()
+">
+	<div class="min-h-screen px-5 py-4 bg-green-200">
+		<div class="text-green-700 mb-5">Tahfidz</div>
+		<input type="search" placeholder="Filter Nama" class="p-2 rounded shadow w-full mx-auto block" name="" x-model='filter'>
+		<template x-for='x in list2'>
+			<a :href="'detail?' + x.id" class="my-2 block py-3 px-4 rounded-lg shadow bg-green-100">
+				<strong x-text='x.nama'></strong>
+				<div><span x-text='x.hafalan'></span> Juz</div>
+			</a>
+		</template>
+	</div>
+</div>
+<script type="text/javascript">
+	index = () => {
+		return {
+			list: [
+				{nama: 'Alex', hafalan: 11, id: 2},
+				{nama: 'Andi', hafalan: 9, id: 1},
+				{nama: 'Maryam', hafalan: 30, id: 3},
+				{nama: 'Rudi', hafalan: 2, id: 5},
+				{nama: 'Zen', hafalan: 3, id: 4},
+			],
+			list2: [],
+			filter: '',
+			salinList(){
+				this.list2 = [...this.list]
+			},
+			cari(x){
+				this.list2 = this.list.filter(y => y.nama.includes(x))
+			}
+		}
+	}
+</script>
