@@ -1,59 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Tahfidz</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="/dist/tailwind.css">
-	<meta name="description" content="Rekap tahfidz Madrasah Baitul Izzah Loa Bakung">
-	<meta property='og:image' content="/dist/undraw_Segmentation_re_gduq.png">
-	<link rel="icon" type="text/css" href="/dist/icon-study-skills2.png">
-	<style type="text/css">
-        * {
-            word-wrap: break-word;
-        }
-        [class^="ri-"],
-        [class*=" ri-"],
-        [type='checkbox'] {
-            vertical-align: middle;
-            top: -1px;
-            position: relative;
-        }
-        .h-screen {
-            height: 100vh;
-            height: calc(var(--vh, 1vh) * 100);
-        }
-        .min-h-screen {
-            min-height: 100vh;
-            min-height: calc(var(--vh, 1vh) * 100);
-        }
-    </style>
-    <script>
-        vh = 0
-        tinggiFull = () => {
-            vh = window.innerHeight * 0.01
-            document.documentElement.style.setProperty("--vh", `${vh}px`)
-        }
-        tinggiFull()
-        window.addEventListener("resize", tinggiFull)
-
-        // api = 'http://localhost:2020'
-        api = 'https://mzaini30.nasihosting.com/tahfidz'
-        param = () => location.search.split('?')[1].split('/')
-    </script>
-    <meta content='no-cache' name='turbolinks-cache-control'/>
-	<script defer='defer' src='/dist/turbolinks.js' type='text/javascript'></script>
-	<style>
-	    .turbolinks-progress-bar {
-	        height: 0;
-	    }
-	</style>
-	<script src="/dist/alpine.min.js" defer></script>
-	<link rel="stylesheet" type="text/css" href="/dist/chartist.min.css">
-	<script type="text/javascript" src="/dist/chartist.min.js"></script>
-</head>
-<body>
-	<div x-data='detail()' x-init='
+<div x-data='detail()' x-init='
 	identitas()
 	ambilData()
 '>
@@ -149,5 +94,3 @@
 		}
 	}
 </script>
-</body>
-</html>
