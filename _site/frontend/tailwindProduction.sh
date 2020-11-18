@@ -1,1 +1,0 @@
-NODE_ENV=production tailwindcss build tailwind.pcss -o dist/tailwind.css
