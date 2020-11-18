@@ -60,7 +60,7 @@
 '>
 	<div class="min-h-screen bg-green-200 py-4 px-6">
 		<div class="text-3xl text-right text-green-700 uppercase" x-text='biodata.nama'></div>
-		<div class="text-right text-green-500"><span x-text='biodata.hafalan'></span> Juz - <span x-text="dataAyat[0].tanggal.replace(/\-/g, '/')"></span></span></div>
+		<div class="text-right text-green-500"><span x-text='biodata.hafalan'></span> Juz</div>
 		<div class="sm:grid sm:grid-cols-3 sm:gap-x-4 sm:mt-8">
 			<div class="ct-chart ct-perfect-fourth"></div>
 			<template x-if='localStorage.password'>
@@ -69,12 +69,13 @@
 						<div>Berapa Juz Hafalan?</div>
 						<input type="tel" class="border-b w-full" x-model='biodata.hafalan' name="">
 						<input type="submit" value="Ubah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
+						<div class="mt-2" x-text="tanggalTerakhir"></div>
 					</form>
 					<form @submit.prevent='tambahAyat()' class="bg-white mb-4 p-3 shadow">
 						<div>Tanggal Update Terakhir?</div>
 						<input type="date" x-model='tanggal' class="border-b w-full" name="">
 						<div class="mt-2">Ayat yang Telah Dihafal</div>
-						<input type="tel" x-model='ayat' placeholder="10.31.1" class="border-b w-full" name="">
+						<input type="tel" x-model='ayat' required="" placeholder="10.31.1" class="border-b w-full" name="">
 						<input type="submit" value="Tambah" class="px-2 py-1 cursor-pointer mt-3 rounded" name="">
 					</form>
 				</div>
@@ -105,6 +106,7 @@
 			biodata: {},
 			tanggal: '',
 			ayat: '',
+			tanggalTerakhir: "",
 			identitas(){
 				fetch(`${api}/ambilNama.php?id=${param()[0]}`).then(x => x.json()).then(x => this.biodata = x)
 			},
@@ -129,6 +131,7 @@
 			ambilData(){
 				fetch(`${api}/detail.php?idSantri=${param()[0]}`).then(x => x.json()).then(x => {
 					this.dataAyat = x
+     this.tanggalTerakhir = x[0].tanggal
 					series = []
 					for (x of this.dataAyat){
 						series = [x.ayat, ...series]
