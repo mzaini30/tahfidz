@@ -60,11 +60,11 @@
 '>
 	<div class="min-h-screen bg-green-200 py-4 px-6">
 		<div class="text-3xl text-right text-green-700 uppercase" x-text='biodata.nama'></div>
-		<div class="text-right text-green-500"><span x-text='biodata.hafalan'></span> Juz</div>
+		<div class="text-right text-green-500"><span x-text='biodata.hafalan'></span> Juz - <span x-text="dataAyat[0].tanggal.replace(/\-/g, '/')"></span></span></div>
 		<div class="sm:grid sm:grid-cols-3 sm:gap-x-4 sm:mt-8">
 			<div class="ct-chart ct-perfect-fourth"></div>
 			<template x-if='localStorage.password'>
-				<div>
+				<div class="grid grid-cols-2">
 					<form @submit.prevent='ubahHafalan()' class="bg-white mb-4 p-3 shadow">
 						<div>Berapa Juz Hafalan?</div>
 						<input type="tel" class="border-b w-full" x-model='biodata.hafalan' name="">
